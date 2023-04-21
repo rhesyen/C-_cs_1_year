@@ -1,0 +1,351 @@
+//Aniela Fendrych
+#include <iostream>
+using namespace std;
+
+int main() {
+  int n; // n to liczba rozgrywek, oznacza ile danych wejsciowych bedzie wprowadzonych
+  cin >> n; cin.ignore ();
+  
+  // x, y, z, v to kolejne numery oczek wyrzucone przez graczy, od 1 do 4, dotycza jednej rundy
+  int x1; int x2;
+  int y1; int y2;
+  int z1; int z2;
+  int v1; int v2;
+
+  // a, b, c, d, e to kolejne identyfikatory graczy
+  char a;
+  char b;
+  char c;
+  char d;
+  char e;
+
+  // liczba wygranych, przegranych i remisow kazdego z graczy
+  // gracz a
+  int a_wygr; a_wygr = 0;
+  int a_przg; a_przg = 0;
+  int a_rem; a_rem = 0;
+  // gracz b
+  int b_wygr; b_wygr = 0;
+  int b_przg; b_przg = 0;
+  int b_rem; b_rem = 0;
+  // gracz c
+  int c_wygr; c_wygr = 0;
+  int c_przg; c_przg = 0;
+  int c_rem; c_rem = 0;
+  // gracz d
+  int d_wygr; d_wygr = 0;
+  int d_przg; d_przg = 0;
+  int d_rem; d_rem = 0;
+  // gracz e
+  int e_wygr; e_wygr = 0;
+  int e_przg; e_przg = 0;
+  int e_rem; e_rem = 0;
+  
+  // zapisuje poczatkowa ilosc rozgrywek do pozniejszych obliczen
+  int lroz_a;
+  int lroz_b; 
+  int lroz_c; 
+  int lroz_d;
+  int lroz_e;
+  
+  // dwoch graczy na jedna rozgrywke
+  char nazwa_gracza1;
+  nazwa_gracza1 = ('a' || 'b' || 'c' || 'd' || 'e'); 
+  char nazwa_gracza2;
+  nazwa_gracza2 = ('a' || 'b' || 'c' || 'd' || 'e');
+  
+  int wynik1; // do jakiej klasy naleza 4 cyfry 1 gracza
+  wynik1 = (1 || 2 || 3 || 4 || 5); // 5 klas wynikow
+
+  int wynik2; // do jakiej klasy naleza 4 cyfry 2 gracza
+  wynik2 = (1 || 2 || 3 || 4 || 5); // 5 klas wynikow
+  
+  while (n > 0) {
+  
+  kolejna_runda:
+  // cout << "Podaj nazwe gracza1 i 4 liczby oddzielone spacja, gracza2 i kolejne 4 liczby oddzielone spacja" << endl;
+  cin >> nazwa_gracza1 >> x1 >> y1 >> z1 >> v1 >> nazwa_gracza2 >> x2 >> y2 >> z2 >> v2;
+  cin.ignore ();
+
+  if (nazwa_gracza1 == nazwa_gracza2){
+    cout << "Gracz nie moze konkurowac sam ze soba" << endl;
+    goto kolejna_runda; }
+
+  if (nazwa_gracza1 != nazwa_gracza2) { //gracz nie moze konkurowac sam ze soba
+  // GRACZ 1
+  // klasa 1 w hierarchii; wszystkie cyfry sa sobie rowne:
+  if ((x1 == y1) && (x1 == z1) && (x1 == v1)) {
+    // cout << "Wynik w klasie K1" << endl;
+    wynik1 = 1;
+  }
+  // klasa 2 w hierarchii; wszystkie cyfry sa rozne:
+  if ((x1 != y1) && (x1 != z1) && (x1 != v1) && (y1 != z1) && (y1 != v1) && (z1 != v1)) {
+    // cout << "Wynik w klasie K2" << endl;
+    wynik1 = 2;
+  }
+  // klasa 3 w hierarchii; wystepuja 2 pary takich samych cyfr:
+  if ( (((x1 == y1) && !((x1 == v1) && (x1 == z1))) 
+    || ((x1 == v1) && !((x1 == y1) && (x1 == z1))) 
+    || ((x1 == z1) && !((x1 == y1) && (x1 == v1))) 
+    || ((y1 == v1) && !((y1 == x1) && (y1 == z1))) 
+    || ((y1 == z1) && !((y1 == v1) && (y1 == x1))) 
+    || ((z1 == v1) && !((z1 == x1) && (z1 == y1)))) 
+    &&
+    ((x1 == y1) && (z1 == v1)
+    || (y1 == v1) && (x1 == z1) 
+    || (y1 == z1) && (x1 == v1)) ) {
+    // cout << "Wynik w klasie K3" << endl;
+    wynik1 = 3;
+  }
+  // klasa 4 w hierarchii; wystepuja 3 takie same cyfry:
+  if (((x1 == y1) && (x1 == z1)) 
+    || ((x1 == y1) && (x1 == v1)) 
+    || ((x1 == z1) && (x1 == v1)) 
+    || ((y1 == z1) && (y1 == v1))) {
+  
+    if (!((x1 == y1) && (x1 == z1) && (x1 == v1) && (y1 == v1) && (v1 == z1) && (y1 == z1))) {
+    // cout << "Wynik w klasie K4" << endl;
+    wynik1 = 4;
+    }
+  }
+  // klasa 5 w hierarchii; wystepuje 1 para takich samych cyfr:
+    if ( (((x1 == y1) && !(x1 == v1) && !(x1 == z1) && !(z1 == v1))) 
+    || ((x1 == v1) && !(x1 == y1) && !(x1 == z1) && !(y1 == z1)) 
+    || ((x1 == z1) && !(x1 == y1) && !(x1 == v1) && !(y1 == v1)) 
+    || ((y1 == v1) && !(y1 == x1) && !(y1 == z1) && !(x1 == z1)) 
+    || ((y1 == z1) && !(y1 == v1) && !(y1 == x1) && !(v1 == x1)) 
+    || ((z1 == v1) && !(z1 == x1) && !(z1 == y1) && !(x1 == y1)) ) 
+     {
+      // cout << "Wynik w klasie K5" << endl;
+      wynik1 = 5;
+    }
+    
+    // cout << "Wynik " << nazwa_gracza1 << ":";
+    // cout << wynik1 << endl;
+
+    // GRACZ 2
+    // klasa 1 w hierarchii; wszystkie cyfry sa sobie rowne:
+  if ((x2 == y2) && (x2 == z2) && (x2 == v2)) {
+    // cout << "Wynik w klasie K1" << endl;
+    wynik2 = 1;
+  }
+  // klasa 2 w hierarchii; wszystkie cyfry sa rozne:
+  if ((x2 != y2) && (x2 != z2) && (x2 != v2) && (y2 != z2) && (y2 != v2) && (z2 != v2)) {
+    // cout << "Wynik w klasie K2" << endl;
+    wynik2 = 2;
+  }
+  // klasa 3 w hierarchii; wystepuja 2 pary takich samych cyfr:
+  if ( (((x2 == y2) && !((x2 == v2) && (x2 == z2))) 
+    || ((x2 == v2) && !((x2 == y2) && (x2 == z2))) 
+    || ((x2 == z2) && !((x2 == y2) && (x2 == v2))) 
+    || ((y2 == v2) && !((y2 == x2) && (y2 == z2))) 
+    || ((y2 == z2) && !((y2 == v2) && (y2 == x2))) 
+    || ((z2 == v2) && !((z2 == x2) && (z2 == y2)))) 
+    &&
+    ((x2 == y2) && (z2 == v2)
+    || (y2 == v2) && (x2 == z2) 
+    || (y2 == z2) && (x2 == v2)) ) {
+    // cout << "Wynik w klasie K3" << endl;
+    wynik2 = 3;
+  }
+  // klasa 4 w hierarchii; wystepuja 3 takie same cyfry:
+  if (((x2 == y2) && (x2 == z2)) 
+    || ((x2 == y2) && (x2 == v2)) 
+    || ((x2 == z2) && (x2 == v2)) 
+    || ((y2 == z2) && (y2 == v2))) {
+  
+    if (!((x2 == y2) && (x2 == z2) && (x2 == v2) && (y2 == v2) && (v2 == z2) && (y2 == z2))) {
+    // cout << "Wynik w klasie K4" << endl;
+    wynik2 = 4;
+    }
+  }
+  // klasa 5 w hierarchii; wystepuje 1 para takich samych cyfr:
+    if ( (((x2 == y2) && !(x2 == v2) && !(x2 == z2) && !(z2 == v2))) 
+    || ((x2 == v2) && !(x2 == y2) && !(x2 == z2) && !(y2 == z2)) 
+    || ((x2 == z2) && !(x2 == y2) && !(x2 == v2) && !(y2 == v2)) 
+    || ((y2 == v2) && !(y2 == x2) && !(y2 == z2) && !(x2 == z2)) 
+    || ((y2 == z2) && !(y2 == v2) && !(y2 == x2) && !(v2 == x2)) 
+    || ((z2 == v2) && !(z2 == x2) && !(z2 == y2) && !(x2 == y2)) ) 
+     {
+      // cout << "Wynik w klasie K5" << endl;
+      wynik2 = 5;
+    }
+    // cout << "Wynik " << nazwa_gracza2 << ":";
+    // cout << wynik2 << endl;
+  
+    // reguly kto wygrywa pelna wersja, naliczanie wygranych/przegranych
+    /* int (nazwa_gracza1)_wygr++;
+    int (nazwa_gracza2)_przg++;
+    int (nazwa_gracza1)_rem++;
+    int (nazwa_gracza2)_rem++; */ // szkoda ze tak sie nie da
+    if (wynik1 < wynik2) {
+      //(nazwa_gracza1)_wygr;
+      if (nazwa_gracza1 == 'a') { ++a_wygr;}
+      if (nazwa_gracza1 == 'b') { ++b_wygr;}
+      if (nazwa_gracza1 == 'c') { ++c_wygr;}
+      if (nazwa_gracza1 == 'd') { ++d_wygr;}
+      if (nazwa_gracza1 == 'e') { ++e_wygr;}
+      //(nazwa_gracza2)_przg;
+      if (nazwa_gracza2 == 'a') { ++a_przg;}
+      if (nazwa_gracza2 == 'b') { ++b_przg;}
+      if (nazwa_gracza2 == 'c') { ++c_przg;}
+      if (nazwa_gracza2 == 'd') { ++d_przg;}
+      if (nazwa_gracza2 == 'e') { ++e_przg;}
+    }
+    if (wynik1 == wynik2){
+      if ((x1 + y1 + z1 + v1) > (x2 + y2 + z2 + v2)){
+        //(nazwa_gracza1)_wygr;
+        if (nazwa_gracza1 == 'a') { ++a_wygr;}
+        if (nazwa_gracza1 == 'b') { ++b_wygr;}
+        if (nazwa_gracza1 == 'c') { ++c_wygr;}
+        if (nazwa_gracza1 == 'd') { ++d_wygr;}
+        if (nazwa_gracza1 == 'e') { ++e_wygr;}
+        //(nazwa_gracza2)_przg;
+        if (nazwa_gracza2 == 'a') { ++a_przg;}
+        if (nazwa_gracza2 == 'b') { ++b_przg;}
+        if (nazwa_gracza2 == 'c') { ++c_przg;}
+        if (nazwa_gracza2 == 'd') { ++d_przg;}
+        if (nazwa_gracza2 == 'e') { ++e_przg;}
+      }
+      if ((x1 + y1 + z1 + v1) < (x2 + y2 + z2 + v2)){
+        //(nazwa_gracza2)_wygr;
+        if (nazwa_gracza2 == 'a') { ++a_wygr;}
+        if (nazwa_gracza2 == 'b') { ++b_wygr;}
+        if (nazwa_gracza2 == 'c') { ++c_wygr;}
+        if (nazwa_gracza2 == 'd') { ++d_wygr;}
+        if (nazwa_gracza2 == 'e') { ++e_wygr;}
+        //(nazwa_gracza1)_przg;
+        if (nazwa_gracza1 == 'a') { ++a_przg;}
+        if (nazwa_gracza1 == 'b') { ++b_przg;}
+        if (nazwa_gracza1 == 'c') { ++c_przg;}
+        if (nazwa_gracza1 == 'd') { ++d_przg;}
+        if (nazwa_gracza1 == 'e') { ++e_przg;}
+      }
+      if ((x1 + y1 + z1 + v1) == (x2 + y2 + z2 + v2)){
+        //(nazwa_gracza1)_rem;
+        if (nazwa_gracza1 == 'a') { ++a_rem;}
+        if (nazwa_gracza1 == 'b') { ++b_rem;}
+        if (nazwa_gracza1 == 'c') { ++c_rem;}
+        if (nazwa_gracza1 == 'd') { ++d_rem;}
+        if (nazwa_gracza1 == 'e') { ++e_rem;}
+        //(nazwa_gracza2)_rem;
+        if (nazwa_gracza2 == 'a') { ++a_rem;}
+        if (nazwa_gracza2 == 'b') { ++b_rem;}
+        if (nazwa_gracza2 == 'c') { ++c_rem;}
+        if (nazwa_gracza2 == 'd') { ++d_rem;}
+        if (nazwa_gracza2 == 'e') { ++e_rem;}
+      }
+      }
+    if (wynik1 > wynik2) {
+      //(nazwa_gracza2)_wygr;
+      if (nazwa_gracza2 == 'a') { ++a_wygr;}
+      if (nazwa_gracza2 == 'b') { ++b_wygr;}
+      if (nazwa_gracza2 == 'c') { ++c_wygr;}
+      if (nazwa_gracza2 == 'd') { ++d_wygr;}
+      if (nazwa_gracza2 == 'e') { ++e_wygr;}
+      //(nazwa_gracza1)_przg;
+      if (nazwa_gracza1 == 'a') { ++a_przg;}
+      if (nazwa_gracza1 == 'b') { ++b_przg;}
+      if (nazwa_gracza1 == 'c') { ++c_przg;}
+      if (nazwa_gracza1 == 'd') { ++d_przg;}
+      if (nazwa_gracza1 == 'e') { ++e_przg;}
+    }
+    n--;// zmniejsza liczbe rozgrywek o 1
+  }
+if (n == 0){
+  //wyswietlanie wynikow koncowych na ekranie
+  //gracz a
+  // zapisuje poczatkowa ilosc rozgrywek do pozniejszych obliczen
+  lroz_a = a_wygr + a_przg + a_rem;
+  if ((a_wygr != 0) || (a_przg != 0) || (a_rem != 0)) {
+    cout << "gracz a" << endl;
+    float a_proc_w = (float(a_wygr) / float(lroz_a)) * 100; // % wygranych
+    float a_proc_r = (float(a_rem) / float(lroz_a)) * 100; // % remisow
+    float a_proc_p = (float(a_przg) / float(lroz_a)) * 100; // % przegranych
+      if (a_wygr != 0) {
+      cout << "    wygrane: " << a_proc_w << "%" << endl;
+      }
+      if (a_rem != 0) {
+      cout << "    remisy: " << a_proc_r << "%" << endl;
+      }
+      if (a_przg != 0) {
+      cout << "    przegrane: " << a_proc_p << "%" << endl;
+      }
+      cout << endl;
+  }
+  //gracz b
+  lroz_b = b_wygr + b_przg + b_rem;
+  if ((b_wygr != 0) || (b_przg != 0) || (b_rem != 0)) {
+    cout << "gracz b" << endl;
+    float b_proc_w = (float(b_wygr) / float(lroz_b)) * 100; // % wygranych
+    float b_proc_r = (float(b_rem) / float(lroz_b)) * 100; // % remisow
+    float b_proc_p = (float(b_przg) / float(lroz_b)) * 100; // % przegranych
+      if (b_wygr != 0) {
+      cout << "    wygrane: " << b_proc_w << "%" << endl;
+      }
+      if (b_rem != 0) {
+      cout << "    remisy: " << b_proc_r << "%" << endl;
+      }
+      if (b_przg != 0) {
+      cout << "    przegrane: " << b_proc_p << "%" << endl;
+      }
+      cout << endl;
+  }
+  //gracz c
+  lroz_c = c_wygr + c_przg + c_rem;
+  if ((c_wygr != 0) || (c_przg != 0) || (c_rem != 0)) {
+    cout << "gracz c" << endl;
+    float c_proc_w = (float(c_wygr) / float(lroz_c)) * 100; // % wygranych
+    float c_proc_r = (float(c_rem) / float(lroz_c)) * 100; // % remisow
+    float c_proc_p = (float(c_przg) / float(lroz_c)) * 100; // % przegranych
+      if (c_wygr != 0) {
+      cout << "    wygrane: " << c_proc_w << "%" << endl;
+      }
+      if (c_rem != 0) {
+      cout << "    remisy: " << c_proc_r << "%" << endl;
+      }
+      if (c_przg != 0) {
+      cout << "    przegrane: " << c_proc_p << "%" << endl;
+      }
+      cout << endl;
+  }
+  //gracz d
+  lroz_d = d_wygr + d_przg + d_rem;
+  if ((d_wygr != 0) || (d_przg != 0) || (d_rem != 0)) {
+    cout << "gracz d" << endl;
+    float d_proc_w = (float(d_wygr) / float(lroz_d)) * 100; // % wygranych
+    float d_proc_r = (float(d_rem) / float(lroz_d)) * 100; // % remisow
+    float d_proc_p = (float(d_przg) / float(lroz_d)) * 100; // % przegranych
+      if (d_wygr != 0) {
+      cout << "    wygrane: " << d_proc_w << "%" << endl;
+      }
+      if (d_rem != 0) {
+      cout << "    remisy: " << d_proc_r << "%" << endl;
+      }
+      if (d_przg != 0) {
+      cout << "    przegrane: " << d_proc_p << "%" << endl;
+      }
+      cout << endl;
+  }
+  //gracz e
+  lroz_e = e_wygr + e_przg + e_rem;
+  if ((e_wygr != 0) || (e_przg != 0) || (e_rem != 0)) {
+    cout << "gracz e" << endl;
+    float e_proc_w = (float(e_wygr) / float(lroz_e)) * 100; // % wygranych
+    float e_proc_r = (float(e_rem) / float(lroz_e)) * 100; // % remisow
+    float e_proc_p = (float(e_przg) / float(lroz_e)) * 100; // % przegranych
+      if (e_wygr != 0) {
+      cout << "    wygrane: " << e_proc_w << "%" << endl;
+      }
+      if (e_rem != 0) {
+      cout << "    remisy: " << e_proc_r << "%" << endl;
+      }
+      if (e_przg != 0) {
+      cout << "    przegrane: " << e_proc_p << "%" << endl;
+      }
+      cout << endl;
+  }
+}
+  }
+  return 0;
+}
